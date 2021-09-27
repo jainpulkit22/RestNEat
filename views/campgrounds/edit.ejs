@@ -14,6 +14,15 @@
                     <input class="form-control" type = "text" name= "campground[desc]" value = <%=campground.description%>>
                 </div>
                 <div class="form-group">
+                    <input class="form-control" type = "number" step="0.01" min="0" name= "campground[price]" value = <%=campground.price%>>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type = "text" name= "campground[map_location]" value = <%=campground.map_location%>>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type = "number" name= "campground[rating]" min="1" max="5" value = <%=campground.rating%>>
+                </div>
+                <div class="form-group">
                     <button class="btn btn-lg btn-primary btn-block">Submit</button>
                 </div>
             </form>
