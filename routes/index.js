@@ -8,7 +8,7 @@ router.get("/register", function(req,res){
 })
 
 router.get("/", function(req, res){
-    res.redirect("/campgrounds")
+    res.render("landing")
 })
 
 // handling the sign up 
