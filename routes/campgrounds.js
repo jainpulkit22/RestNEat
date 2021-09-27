@@ -28,6 +28,8 @@ router.post("", middleware.isLoggedIn, function(req,res){
         name: res1,
         img: res2,
         description: res3,
+        totalReviews: 0,
+        totalRating: 3,
         author: author
     }, function(err, result){
         if(err)
