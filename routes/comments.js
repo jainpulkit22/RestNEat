@@ -30,6 +30,10 @@ router.post("", middleware.isLoggedIn, function(req,res){
                     comment.author.username = req.user.username;
                     comment.save();
                     campground.comments.push(comment)
+                    var r1 = campground.totalRating
+                    var r2 = campground.totalReviews
+                    campground.totalRating = (r1*r2 + comment.rating)/(r2+1)
+                    campground.totalReviews = r2+1; 
                     campground.save();
                     res.redirect("/campgrounds/" + campground._id)
                 }

@@ -3,6 +3,8 @@ var campSchema = new mongoose.Schema({
     name: String,
     img: String,
     description: String,
+    totalReviews: Number,
+    totalRating: Number,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
