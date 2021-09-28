@@ -23,8 +23,9 @@ var commentRoutes = require("./routes/comments"),
   campgroundRoutes = require("./routes/campgrounds"),
   indexRoutes = require("./routes/index");
 
-// PASSPORT CONFIGURATION   
-app.use(require("express-session")({
+// PASSPORT CONFIGURATION
+app.use(
+  require("express-session")({
     secret: process.env.secret,
     resave: false,
     saveUninitialized: false,
@@ -65,12 +66,14 @@ passport.use(
           req.flash("error", "Incorrect Username!");
           return done(null, false, { message: "Incorrect username" });
         }
-        if (!bcrypt.compare(password, user.password)) {
+        bcrypt.compare(password, user.password, function (result) {
+          if (result) {
+            req.flash("success", "Welcome to Yelpcamp " + username);
+            return done(null, user);
+          }
           req.flash("error", "Incorrect password!");
           return done(null, false, { message: "Incorrect password" });
-        }
-        req.flash("success", "Welcome to Yelpcamp " + username);
-        return done(null, user);
+        });
       });
     }
   )
