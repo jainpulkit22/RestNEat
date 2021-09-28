@@ -19,6 +19,8 @@ router.post("", middleware.isLoggedIn, function(req,res){
     var res1 = req.body.search;
     var res2 = req.body.link;
     var res3 = req.body.desc;
+    var res4 = req.body.price;
+    var res5 = req.body.map_location;
     var author = {
         id: req.user._id,
         username: req.user.username
@@ -29,8 +31,10 @@ router.post("", middleware.isLoggedIn, function(req,res){
         img: res2,
         description: res3,
         totalReviews: 0,
-        totalRating: 3,
-        author: author
+        rating: 3,
+        author: author,
+        price: res4,
+        map_location: res5
     }, function(err, result){
         if(err)
             req.flash("error", err.message)
