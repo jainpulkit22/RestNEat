@@ -23,10 +23,9 @@ var commentRoutes = require("./routes/comments"),
   campgroundRoutes = require("./routes/campgrounds"),
   indexRoutes = require("./routes/index");
 
-// PASSPORT CONFIGURATION
-app.use(
-  require("express-session")({
-    secret: "Yelpcamp is my bootcamp",
+// PASSPORT CONFIGURATION   
+app.use(require("express-session")({
+    secret: process.env.secret,
     resave: false,
     saveUninitialized: false,
   })

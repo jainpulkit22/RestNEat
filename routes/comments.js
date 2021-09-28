@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
+var oldRating = 0
 
 router.get("/new", middleware.isLoggedIn, function(req,res){
     Campground.findById(req.params.id, function(err, result){
@@ -30,9 +31,9 @@ router.post("", middleware.isLoggedIn, function(req,res){
                     comment.author.username = req.user.username;
                     comment.save();
                     campground.comments.push(comment)
-                    var r1 = campground.totalRating
+                    var r1 = campground.rating
                     var r2 = campground.totalReviews
-                    campground.totalRating = (r1*r2 + comment.rating)/(r2+1)
+                    campground.rating = (r1*r2 + comment.rating)/(r2+1)
                     campground.totalReviews = r2+1; 
                     campground.save();
                     res.redirect("/campgrounds/" + campground._id)
@@ -52,6 +53,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
         else
         {
             console.log()
+            oldRating = foundComment.rating
             res.render("comments/edit", {campgroundId: req.params.id, comment: foundComment})
         }
     })
@@ -66,6 +68,18 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
         }
         else
         {
+            Campground.findById(req.params.id, function(error, camp){
+                if(error){
+                    console.log("Ivalid operation")
+                }
+                else
+                {
+                    var r1 = camp.rating
+                    var r2 = camp.totalReviews
+                    camp.rating = (r1*r2-oldRating+updated.rating)/r2
+                    camp.save()
+                }
+            })
             res.redirect("/campgrounds/" + req.params.id)
         }
     })
@@ -73,6 +87,16 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
 
 // DELETE COMMENT ROUTE
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res){
+    Comment.findById(req.params.comment_id, function(err, comm){
+        if(err)
+        {
+            res.redirect("back")
+        }
+        else
+        {
+            oldRating = comm.rating
+        }
+    })
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if(err)
         {
@@ -80,6 +104,19 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res
         }
         else
         {
+            Campground.findById(req.params.id, function(error, camp){
+                if(error){
+                    console.log("Ivalid operation")
+                }
+                else
+                {
+                    var r1 = camp.rating
+                    var r2 = camp.totalReviews
+                    camp.rating = (r1*r2-oldRating)/(r2-1)
+                    camp.totalReviews = r2-1
+                    camp.save()
+                }
+            })
             res.redirect("/campgrounds/" + req.params.id)
         }
     })
