@@ -7,6 +7,7 @@ var campSchema = new mongoose.Schema({
     map_location: String,
     totalReviews: Number,
     rating: Number,
+    contact: Number,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
