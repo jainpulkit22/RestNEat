@@ -66,8 +66,12 @@ passport.use(
           req.flash("error", "Incorrect Username!");
           return done(null, false, { message: "Incorrect username" });
         }
-        bcrypt.compare(password, user.password, function (result) {
-          if (result) {
+        bcrypt.compare(password, user.password, function (err, result) {
+          if(err){
+            req.flash("error", err.message);
+            return done(err);
+          }
+          if (result === true) {
             req.flash("success", "Welcome to Yelpcamp " + username);
             return done(null, user);
           }
