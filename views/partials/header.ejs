@@ -10,6 +10,14 @@
         <title>YelpCamp</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="/stylesheets/main.css">
+        <script type="text/javascript">
+            current="sidebar-button-1";
+            function currentActive(value){
+                document.getElementById(current).classList.remove('active');
+                document.getElementById(value).classList.add('active');
+                current=value;            
+            }
+        </script>
     </head>
     <body>
         <!-- <div class = "container"> -->
