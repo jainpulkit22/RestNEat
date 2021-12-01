@@ -24,19 +24,19 @@ router.post("/register", function (req, res) {
       req.flash("error", "User already exists!");
       return res.redirect("/register");
     }
-    const hash = bcrypt.hash(password, 10);
-    const _user = new User({
-      username,
-      password: hash,
-    });
-    _user.save(function (err) {
-      if (err) {
-        req.flash("error", err.message);
-        return res.redirect("/register");
-      }
-      passport.authenticate("local")(req, res, function () {
-        req.flash("success", "Welcome to yelpcamp " + username);
-        res.redirect("/campgrounds");
+    bcrypt.hash(password, 10, function (err, hash) {
+      const _user = new User({
+        username,
+        password: hash,
+      });
+      _user.save(function (err) {
+        if (err) {
+          req.flash("error", err.message);
+          return res.redirect("/register");
+        }
+        passport.authenticate("local")(req, res, function () {
+          res.redirect("/campgrounds");
+        });
       });
     });
   });

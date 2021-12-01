@@ -3,12 +3,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">Yelp Camp</p>
             <div class="list-group">
-                <a href = "#" id="sidebar-button-1" class="list-group-item active" onclick="currentActive('sidebar-button-1')">Contact-Us</a>
+                <a href = "#" id="sidebar-button-1" class="list-group-item active" onclick="currentActive('sidebar-button-1')">
+                    <i class="bi bi-telephone"></i> <%= campground.contact%>
+                </a>
                 <a href = "#" id="sidebar-button-2" class="list-group-item" onclick="currentActive('sidebar-button-2')">Menu</a>
                 <a href = "#" id="sidebar-button-3" class="list-group-item" onclick="currentActive('sidebar-button-3')">
-                    <iframe src="<%= campground.map_location %>" frameborder="0"></iframe>
+                    <iframe width="100%" src="<%= campground.map_location %>" frameborder="0"></iframe>
                 </a>
             </div>
         </div>
@@ -16,8 +17,14 @@
             <div class="thumbnail">
                 <img class="img-responsive" src=" <%= campground.img%>" style=>
                 <div class="caption-full">
-                    <h4 class="pull-right"> <%= campground.price %></h4>
-                    <h4><a><%= campground.name %></a></h4>
+                    <h4 class="pull-right"> &#8377 <%= campground.price %> for two </h4>
+                    <h4>
+                        <p>
+                            <a><%= campground.name %></a>&nbsp&nbsp
+                            <%= campground.rating %>/5 
+                        </p>
+                    </h4>
+                    <p><%= campground.totalReviews%> <a href="#comments">reviews</a><p>
                     <p> <%= campground.description %></p>
                     <p> 
                         <em>Submitted by <%= campground.author.username%></em>
@@ -30,7 +37,7 @@
                     <% } %>
                 </div>
             </div>
-            <div class="well">
+            <div class="well" id="comments">
                 <div class="text-right">
                     <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Add New Comment</a>
                 </div>
@@ -39,6 +46,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= data.author.username %></strong>
+                            <br>
                             <% for(var i=1;i<=data.rating;i++){ %>
                                 <i class="bi bi-star-fill"></i>
                             <% } %>
