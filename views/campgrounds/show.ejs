@@ -39,7 +39,9 @@
             </div>
             <div class="well" id="comments">
                 <div class="text-right">
-                    <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Add New Comment</a>
+                    <% if(!(campground.comments.some(el => el.author.id.equals(currentUser._id) ))) { %>
+                        <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Add New Comment</a>
+                    <% } %>
                 </div>
                 <hr>
                 <% campground.comments.forEach(function(data){ %>
