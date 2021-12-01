@@ -23,6 +23,15 @@ var commentRoutes = require("./routes/comments"),
   campgroundRoutes = require("./routes/campgrounds"),
   indexRoutes = require("./routes/index");
 
+// CLOUDINARY CONFIGURATION
+var cloudinary = require('cloudinary').v2;
+cloudinary.config({ 
+  cloud_name: 'restneat', 
+  api_key: '187156839922358', 
+  api_secret: 'bgQ5bHE3-xUFcO-D8DRb_KaYh1c',
+  secure: true
+});
+
 // PASSPORT CONFIGURATION
 app.use(
   require("express-session")({
