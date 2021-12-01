@@ -1,5 +1,5 @@
 var mongoose = require("mongoose")
-var Campgrounds  = require("./models/campground")
+var Restaurants  = require("./models/restaurant")
 var Comment = require("./models/comment")
 var data = [{
     name: "Dharamshala",
@@ -7,13 +7,13 @@ var data = [{
     description: "Very beautiful place to visit"
 }]
 function seedDB(){
-    Campgrounds.remove({}, function(err){
+    Restaurants.remove({}, function(err){
         if(err)
             console.log(error)
         else
-            console.log("Campgrounds removed")
+            console.log("Restaurants removed")
         /*data.forEach(function(seed){
-            Campgrounds.create(seed, function(err, res){
+            Restaurants.create(seed, function(err, res){
                 if(err)
                     console.log(err)
                 else{

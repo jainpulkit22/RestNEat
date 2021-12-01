@@ -8,7 +8,7 @@ var mongoose = require("mongoose");
 mongoose.connect(process.env.mongoURL);
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-var Campground = require("./models/campground");
+var Restaurant = require("./models/restaurant");
 var Comment = require("./models/comment");
 var User = require("./models/user");
 var passport = require("passport");
@@ -20,7 +20,7 @@ var bcrypt = require("bcrypt");
 //seedDB()
 
 var commentRoutes = require("./routes/comments"),
-  campgroundRoutes = require("./routes/campgrounds"),
+  restaurantRoutes = require("./routes/restaurants"),
   indexRoutes = require("./routes/index");
 
 // PASSPORT CONFIGURATION
@@ -92,8 +92,8 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(indexRoutes);
-app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/restaurants", restaurantRoutes);
+app.use("/restaurants/:id/comments", commentRoutes);
 app.listen(process.env.PORT || 3000, function () {
   console.log("YelpCamp has started");
 });
