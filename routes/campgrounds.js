@@ -14,10 +14,10 @@ router.get("", function (req, res) {
     else res.render("campgrounds/home", { camp: camps });
   });
 });
-router.get("/new", middleware.isLoggedIn, function (req, res) {
+router.get("/new", middleware.isLoggedIn, middleware.checkAdmin, function (req, res) {
   res.render("campgrounds/search");
 });
-router.post("", middleware.isLoggedIn, function (req, res) {
+router.post("", middleware.isLoggedIn,middleware.checkAdmin, function (req, res) {
   var res1 = req.body.search;
   var res2 = req.body.link;
   var res3 = req.body.desc;
