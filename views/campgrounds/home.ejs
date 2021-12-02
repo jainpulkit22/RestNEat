@@ -3,7 +3,12 @@
     <header class = "jumbotron">
         <div class="container">
             <h1>Welcome to YelpCamp</h1>
-            <a class= "btn btn-danger btn-large" href="/campgrounds/new">Add a new Campground</a>
+            <% if(currentUser){ %>
+                <% if(currentUser.role == "admin"){ %>
+                    <a class= "btn btn-danger btn-large" href="/campgrounds/new">Add a new Campground</a>
+            
+                <% } %>    
+            <% } %>    
         </div>
     </header>
     <div class="row text-center" style="display: flex; flex-wrap: wrap;">

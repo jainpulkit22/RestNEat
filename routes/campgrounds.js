@@ -12,7 +12,7 @@ router.get("", function(req,res){
             res.render("campgrounds/home", {camp: camps})
     })
 })
-router.get("/new", middleware.isLoggedIn, function(req,res){
+router.get("/new", middleware.isLoggedIn, middleware.checkAdmin, function(req,res){
     res.render("campgrounds/search")
 })
 router.post("", middleware.isLoggedIn, function(req,res){
@@ -41,7 +41,7 @@ router.post("", middleware.isLoggedIn, function(req,res){
         if(err)
             req.flash("error", err.message)
         else
-            res.redirect("/campgrounds/new")
+            res.redirect("/campgrounds")
     })
     //res.redirect("/campgrounds/new")
 })
