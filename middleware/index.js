@@ -68,4 +68,16 @@ middlewareObj.isLoggedIn = function(req, res, next){
     res.redirect("/login");
 }
 
+middlewareObj.checkAdmin = function(req,res,next){
+    if(req.isAuthenticated()){
+        if(req.user.role == "admin"){
+            return next();
+        }
+        else    
+            res.redirect("/campgrounds");
+    }
+    else    
+        res.redirect("/campgrounds");
+}
+
 module.exports = middlewareObj

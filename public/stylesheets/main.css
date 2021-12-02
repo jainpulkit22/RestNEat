@@ -14,3 +14,8 @@ body{
 #delete-form{
     display: inline;
 }
+
+.display-menu{
+    display: block;
+    margin: 0 auto;
+}
