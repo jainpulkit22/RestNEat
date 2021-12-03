@@ -97,6 +97,20 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
   });
 });
 
+// Search a Restaurant
+router.post("/findCampground", function(req, res){
+  var name = req.body.search;
+
+  Campground.findOne({name: name}, function(err, result){
+    if(err){
+      req.flash("error", "Campground not found!");
+    }
+    else{
+      res.render("campgrounds/show", {campground: result})
+    }
+  })  
+})
+
 // UPLOAD MENU
 router.post(
   "/:id/uploadmenu",

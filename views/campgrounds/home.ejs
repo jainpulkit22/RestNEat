@@ -8,7 +8,13 @@
                     <a class= "btn btn-danger btn-large" href="/campgrounds/new">Add a new Campground</a>
             
                 <% } %>    
-            <% } %>    
+            <% } %>  
+            <br><br>
+            <form action="/campgrounds/findCampground" method = "POST">
+                <div class="form-inline" >
+                    <input class="form-control" type = "text"  name="search"  placeholder="Campground Name">&nbsp<button class="btn btn-sm btn-success">Search</button>
+                </div>
+            </form>
         </div>
     </header>
     <div class="row text-center" style="display: flex; flex-wrap: wrap;">
