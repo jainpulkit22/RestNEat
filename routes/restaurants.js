@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router({ mergeParams: true });
-var Campground = require("../models/campground");
+var Restaurant = require("../models/restaurant");
 var middleware = require("../middleware");
 var formidable = require("formidable");
 var cloudinary = require("cloudinary").v2;
@@ -8,14 +8,14 @@ var fs = require("fs");
 const path = require("path");
 
 router.get("", function (req, res) {
-  //res.render("home", {camp: campgrounds})
-  Campground.find({}, function (err, camps) {
+  //res.render("home", {camp: restaurants})
+  Restaurant.find({}, function (err, camps) {
     if (err) console.log("Something WentWrong!");
-    else res.render("campgrounds/home", { camp: camps });
+    else res.render("restaurants/home", { camp: camps });
   });
 });
 router.get("/new", middleware.isLoggedIn, middleware.checkAdmin, function (req, res) {
-  res.render("campgrounds/search");
+  res.render("restaurants/search");
 });
 router.post("", middleware.isLoggedIn,middleware.checkAdmin, function (req, res) {
   var res1 = req.body.search;
@@ -29,7 +29,7 @@ router.post("", middleware.isLoggedIn,middleware.checkAdmin, function (req, res)
     username: req.user.username,
   };
   //console.log(res1)
-  Campground.create(
+  Restaurant.create(
     {
       name: res1,
       img: res2,
@@ -43,71 +43,71 @@ router.post("", middleware.isLoggedIn,middleware.checkAdmin, function (req, res)
     },
     function (err, result) {
       if (err) req.flash("error", err.message);
-      else res.redirect("/campgrounds/");
+      else res.redirect("/restaurants/");
     }
   );
-  //res.redirect("/campgrounds/new")
+  //res.redirect("/restaurants/new")
 });
 router.get("/:id", function (req, res) {
-  Campground.findById(req.params.id)
+  Restaurant.findById(req.params.id)
     .populate("comments")
     .exec(function (err, result) {
       if (err) req.flash("error", err.message);
-      else res.render("campgrounds/show", { campground: result });
+      else res.render("restaurants/show", { restaurant: result });
     });
 });
 
-//EDIT CAMPGROUND ROUTE
+//EDIT restaurant ROUTE
 router.get(
   "/:id/edit",
-  middleware.checkCampgroundOwnership,
+  middleware.checkRestaurantOwnership,
   function (req, res) {
-    Campground.findById(req.params.id, function (err, result) {
+    Restaurant.findById(req.params.id, function (err, result) {
       if (err) {
-        res.redirect("/campgrounds");
+        res.redirect("/restaurants");
       } else {
-        res.render("campgrounds/edit", { campground: result });
+        res.render("restaurants/edit", { restaurant: result });
       }
     });
   }
 );
-//UPDATE CAMPGROUND ROUTE
-router.put("/:id", middleware.checkCampgroundOwnership, function (req, res) {
-  Campground.findByIdAndUpdate(
+//UPDATE restaurant ROUTE
+router.put("/:id", middleware.checkRestaurantOwnership, function (req, res) {
+  Restaurant.findByIdAndUpdate(
     req.params.id,
-    req.body.campground,
-    function (err, updatedCampground) {
+    req.body.restaurant,
+    function (err, updatedRestaurant) {
       if (err) {
-        res.redirect("/campgrounds");
+        res.redirect("/restaurants");
       } else {
-        res.redirect("/campgrounds/" + req.params.id);
+        res.redirect("/restaurants/" + req.params.id);
       }
     }
   );
 });
 
-// DESTROY CAMPGROUND ROUTE
-router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
-  Campground.findByIdAndRemove(req.params.id, function (err) {
+// DESTROY restaurant ROUTE
+router.delete("/:id", middleware.checkRestaurantOwnership, function (req, res) {
+  Restaurant.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
-      res.redirect("/campgrounds");
+      res.redirect("/restaurants");
     } else {
-      res.redirect("/campgrounds");
+      res.redirect("/restaurants");
     }
   });
 });
 
 // Search a Restaurant
-router.post("/findCampground", function(req, res){
+router.post("/findRestaurant", function(req, res){
   var name = req.body.search;
 
-  Campground.findOne({name: name}, function(err, result){
+  Restaurant.findOne({name: name}, function(err, result){
     if(err || !result){
-      req.flash("error", "Campground not found!");
-      res.redirect("/campgrounds")
+      req.flash("error", "Restaurant not found!");
+      res.redirect("/restaurants")
     }
     else{
-      res.redirect("/campgrounds/"+result._id)
+      res.redirect("/restaurants/"+result._id)
     }
   })  
 })
@@ -115,7 +115,7 @@ router.post("/findCampground", function(req, res){
 // UPLOAD MENU
 router.post(
   "/:id/uploadmenu",
-  middleware.checkCampgroundOwnership,
+  middleware.checkRestaurantOwnership,
   function (req, res) {
     var form = new formidable.IncomingForm({
       uploadDir: path.join(__dirname + "/../uploads"),
@@ -125,14 +125,14 @@ router.post(
         fs.unlink(files.pdfinput.path, function (err) {
           if (err) throw err;
         });
-        Campground.findById(req.params.id, function (err, campg) {
+        Restaurant.findById(req.params.id, function (err, campg) {
           console.log(campg, result.url);
           campg.menu = result.url;
           campg.save(function (err, cg) {});
         });
       });
     });
-    res.redirect("/campgrounds");
+    res.redirect("/restaurants");
   }
 );
 

@@ -1,24 +1,24 @@
 var express = require("express")
 var router = express.Router({mergeParams: true});
-var Campground = require("../models/campground");
+var Restaurant = require("../models/restaurant");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var oldRating = 0
 
 router.get("/new", middleware.isLoggedIn, function(req,res){
-    Campground.findById(req.params.id, function(err, result){
+    Restaurant.findById(req.params.id, function(err, result){
         if(err)
             console.log(err);
         else
-            res.render("comments/new", {campground: result})
+            res.render("comments/new", {restaurant: result})
     })
 })
 router.post("", middleware.isLoggedIn, function(req,res){
-    Campground.findById(req.params.id, function(err, campground){
+    Restaurant.findById(req.params.id, function(err, restaurant){
         if(err)
         {
             console.log(err)
-            res.redirect("/campgrounds")
+            res.redirect("/restaurants")
         }
         else{
             Comment.create(req.body.comment, function(err,comment){
@@ -30,13 +30,13 @@ router.post("", middleware.isLoggedIn, function(req,res){
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
                     comment.save();
-                    campground.comments.push(comment)
-                    var r1 = campground.rating
-                    var r2 = campground.totalReviews
-                    campground.rating = (r1*r2 + comment.rating)/(r2+1)
-                    campground.totalReviews = r2+1; 
-                    campground.save();
-                    res.redirect("/campgrounds/" + campground._id)
+                    restaurant.comments.push(comment)
+                    var r1 = restaurant.rating
+                    var r2 = restaurant.totalReviews
+                    restaurant.rating = (r1*r2 + comment.rating)/(r2+1)
+                    restaurant.totalReviews = r2+1; 
+                    restaurant.save();
+                    res.redirect("/restaurants/" + restaurant._id)
                 }
             })
         }
@@ -54,7 +54,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
         {
             console.log()
             oldRating = foundComment.rating
-            res.render("comments/edit", {campgroundId: req.params.id, comment: foundComment})
+            res.render("comments/edit", {restaurantId: req.params.id, comment: foundComment})
         }
     })
 })
@@ -68,7 +68,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
         }
         else
         {
-            Campground.findById(req.params.id, function(error, camp){
+            Restaurant.findById(req.params.id, function(error, camp){
                 if(error){
                     console.log("Ivalid operation")
                 }
@@ -80,7 +80,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
                     camp.save()
                 }
             })
-            res.redirect("/campgrounds/" + req.params.id)
+            res.redirect("/restaurants/" + req.params.id)
         }
     })
 })
@@ -104,7 +104,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res
         }
         else
         {
-            Campground.findById(req.params.id, function(error, camp){
+            Restaurant.findById(req.params.id, function(error, camp){
                 if(error){
                     console.log("Ivalid operation")
                 }
@@ -117,7 +117,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res
                     camp.save()
                 }
             })
-            res.redirect("/campgrounds/" + req.params.id)
+            res.redirect("/restaurants/" + req.params.id)
         }
     })
 })
