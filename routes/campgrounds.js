@@ -102,11 +102,12 @@ router.post("/findCampground", function(req, res){
   var name = req.body.search;
 
   Campground.findOne({name: name}, function(err, result){
-    if(err){
+    if(err || !result){
       req.flash("error", "Campground not found!");
+      res.redirect("/campgrounds")
     }
     else{
-      res.render("campgrounds/show", {campground: result})
+      res.redirect("/campgrounds/"+result._id)
     }
   })  
 })
