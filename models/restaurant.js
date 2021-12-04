@@ -1,5 +1,5 @@
 var mongoose = require("mongoose")
-var campSchema = new mongoose.Schema({
+var restroSchema = new mongoose.Schema({
     name: String,
     img: String,
     description: String,
@@ -22,4 +22,4 @@ var campSchema = new mongoose.Schema({
     }]
 });
 
-module.exports = mongoose.model("Campground", campSchema)
+module.exports = mongoose.model("Restaurant", restroSchema)

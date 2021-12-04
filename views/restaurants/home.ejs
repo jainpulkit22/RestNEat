@@ -5,28 +5,28 @@
             <h1>Welcome to YelpCamp</h1>
             <% if(currentUser){ %>
                 <% if(currentUser.role == "admin"){ %>
-                    <a class= "btn btn-danger btn-large" href="/campgrounds/new">Add a new Campground</a>
+                    <a class= "btn btn-danger btn-large" href="/restaurants/new">Add a new Restaurant</a>
             
                 <% } %>    
             <% } %>  
             <br><br>
-            <form action="/campgrounds/findCampground" method = "POST">
+            <form action="/restaurants/findRestaurant" method = "POST">
                 <div class="form-inline" >
-                    <input class="form-control" type = "text"  name="search"  placeholder="Campground Name">&nbsp<button class="btn btn-sm btn-success">Search</button>
+                    <input class="form-control" type = "text"  name="search"  placeholder="Restaurant Name">&nbsp<button class="btn btn-sm btn-success">Search</button>
                 </div>
             </form>
         </div>
     </header>
     <div class="row text-center" style="display: flex; flex-wrap: wrap;">
         <% camp.forEach(function(ground){ %>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-4 col-sm-6">
                 <div class="thumbnail">
                     <img src = "<%= ground["img"] %>" >
                     <div class="caption">
                         <h4><%= ground["name"] %></h4>
                     </div>
                     <p>
-                        <a href="/campgrounds/<%= ground._id %>" class="btn btn-primary">More Info</a>
+                        <a href="/restaurants/<%= ground._id %>" class="btn btn-primary">More Info</a>
                     </p>
                 </div>  
             </div>

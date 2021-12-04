@@ -4,39 +4,39 @@
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href = "tel:<%=campground.contact%>" id="sidebar-button-1" class="list-group-item active" onclick="currentActive('sidebar-button-1')">
-                    <i class="bi bi-telephone"></i> &nbsp; <%= campground.contact %>
+                <a href = "tel:<%=restaurant.contact%>" id="sidebar-button-1" class="list-group-item active" onclick="currentActive('sidebar-button-1')">
+                    <i class="bi bi-telephone"></i> &nbsp; <%= restaurant.contact %>
                 </a>
                 <a href = "#comments" id="sidebar-button-2" class="list-group-item" onclick="currentActive('sidebar-button-2')">Comments</a>
                 <a href = "#menu" id="sidebar-button-3" class="list-group-item" onclick="currentActive('sidebar-button-3')">Menu</a>
                 <a href = "#" id="sidebar-button-4" class="list-group-item" onclick="currentActive('sidebar-button-4')">
-                    <iframe width="100%" style="border:0" loading="lazy" allowfullscreen src= "<%= campground.map_location %>" ></iframe>
+                    <iframe width="100%" style="border:0" loading="lazy" allowfullscreen src= "<%= restaurant.map_location %>" ></iframe>
                 </a>
             </div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src=" <%= campground.img%>" style=>
+                <img class="img-responsive" src=" <%= restaurant.img%>" style=>
                 <div class="caption-full">
-                    <h4 class="pull-right"> &#8377 <%= campground.price %> for two </h4>
+                    <h4 class="pull-right"> &#8377 <%= restaurant.price %> for two </h4>
                     <h4>
                         <p>
-                            <a><%= campground.name %></a>&nbsp&nbsp
-                            <%= campground.rating %>/5 
+                            <a><%= restaurant.name %></a>&nbsp&nbsp
+                            <%= restaurant.rating %>/5 
                         </p>
                     </h4>
-                    <p><%= campground.totalReviews%> <a href="#comments">reviews</a><p>
-                    <p> <%= campground.description %></p>
+                    <p><%= restaurant.totalReviews%> <a href="#comments">reviews</a><p>
+                    <p> <%= restaurant.description %></p>
                     <p> 
-                        <em>Submitted by <%= campground.author.username%></em>
+                        <em>Submitted by <%= restaurant.author.username%></em>
                     </p>
-                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
-                        <a class = "btn btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit</a>
-                        <form id ="delete-form" action = "/campgrounds/<%= campground._id%>?_method=DELETE" method="POST">
+                    <% if(currentUser && restaurant.author.id.equals(currentUser._id)){ %>
+                        <a class = "btn btn-warning" href="/restaurants/<%=restaurant._id%>/edit">Edit</a>
+                        <form id ="delete-form" action = "/restaurants/<%= restaurant._id%>?_method=DELETE" method="POST">
                             <button class = "btn btn-danger">Delete</button>
                         </form>
                         <br />
-                        <form id="upload-pdf" class="form-inline" style="margin-top: 1rem;" action="/campgrounds/<%= campground.id %>/uploadmenu" method="POST" enctype="multipart/form-data">
+                        <form id="upload-pdf" class="form-inline" style="margin-top: 1rem;" action="/restaurants/<%= restaurant.id %>/uploadmenu" method="POST" enctype="multipart/form-data">
                             <input class="form-control" type = "file" name= "pdfinput" accept=".pdf">
                             <button class = "btn btn-primary">Upload Menu</button>
                         </form>
@@ -45,12 +45,12 @@
             </div>
             <div class="well" id="comments">
                 <div class="text-right">
-                    <% if(!(campground.comments.some(el => el.author.id.equals(currentUser._id) ))) { %>
-                        <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Add New Comment</a>
+                    <% if(!(restaurant.comments.some(el => el.author.id.equals(currentUser._id) ))) { %>
+                        <a class="btn btn-success" href="/restaurants/<%=restaurant._id%>/comments/new">Add New Comment</a>
                     <% } %>
                 </div>
                 <hr>
-                <% campground.comments.forEach(function(data){ %>
+                <% restaurant.comments.forEach(function(data){ %>
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= data.author.username %></strong>
@@ -66,8 +66,8 @@
                                 <%= data.text %>
                             </p>
                             <% if(currentUser && data.author.id.equals(currentUser._id)){ %>
-                                <a class = "btn btn-xs btn-warning" href = "/campgrounds/<%= campground._id%>/comments/<%=data._id%>/edit">Edit</a>
-                                <form id = "delete-form" action = "/campgrounds/<%= campground._id%>/comments/<%=data._id%>?_method=DELETE" method = "POST">
+                                <a class = "btn btn-xs btn-warning" href = "/restaurants/<%= restaurant._id%>/comments/<%=data._id%>/edit">Edit</a>
+                                <form id = "delete-form" action = "/restaurants/<%= restaurant._id%>/comments/<%=data._id%>?_method=DELETE" method = "POST">
                                     <input type = "submit" class = "btn btn-xs btn-danger" value="Delete">
                                 </form>
                             <% } %>
@@ -75,10 +75,10 @@
                     </div> 
                 <% }) %>
             </div>
-            <% if(campground.menu){ %>
+            <% if(restaurant.menu){ %>
             <div class="well" id="menu">
                 <h4> MENU </h4>
-                <embed class="display-menu ml-auto mr-auto" src="<%= campground.menu %>" width=100% height=800 type="application/pdf"></embed>
+                <embed class="display-menu ml-auto mr-auto" src="<%= restaurant.menu %>" width=100% height=800 type="application/pdf"></embed>
             </div>
             <% } %>
         </div>
