@@ -52,7 +52,10 @@ router.get("/:id", function (req, res) {
   Restaurant.findById(req.params.id)
     .populate("comments")
     .exec(function (err, result) {
-      if (err) req.flash("error", err.message);
+      if (err || !result){
+        req.flash("error", err.message);
+        res.redirect('/restaurants');
+      } 
       else res.render("restaurants/show", { restaurant: result });
     });
 });

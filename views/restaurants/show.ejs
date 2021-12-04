@@ -45,7 +45,7 @@
             </div>
             <div class="well" id="comments">
                 <div class="text-right">
-                    <% if(!(restaurant.comments.some(el => el.author.id.equals(currentUser._id) ))) { %>
+                    <% if(!currentUser || !(restaurant.comments.some(el => el.author.id.equals(currentUser._id) ))) { %>
                         <a class="btn btn-success" href="/restaurants/<%=restaurant._id%>/comments/new">Add New Comment</a>
                     <% } %>
                 </div>
