@@ -37,7 +37,7 @@
                         </form>
                         <br />
                         <form id="upload-pdf" class="form-inline" style="margin-top: 1rem;" action="/restaurants/<%= restaurant.id %>/uploadmenu" method="POST" enctype="multipart/form-data">
-                            <input class="form-control" type = "file" name= "pdfinput" accept=".pdf">
+                            <input class="form-control" type = "file" name= "pdfinput">
                             <button class = "btn btn-primary">Upload Menu</button>
                         </form>
                     <% } %>
@@ -78,7 +78,7 @@
             <% if(restaurant.menu){ %>
             <div class="well" id="menu">
                 <h4> MENU </h4>
-                <embed class="display-menu ml-auto mr-auto" src="<%= restaurant.menu %>" width=100% height=800 type="application/pdf"></embed>
+                <embed class="display-menu ml-auto mr-auto" src="<%= restaurant.menu %>" width=100% height=800></embed>
             </div>
             <% } %>
         </div>
